@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# REACT HOOK FORM
+## 현재 백엔드 서버 미연결 상태
+- 실행X
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+리액트 상태 관리 중 하나인
+훅폼 활용을 위한 테스트 코드
 
-In the project directory, you can run:
 
-### `npm start`
+configuration 옵션
+1. mode
+- mode 와 defaultValues 를 가장 많이 활용
+- mode 옵션은 validation 전략을 설정
+- mode는 form의 유효성 검사를 어느 동작때 시행할지 설정하는 props
+- mode : onSubmit (default) , onChange, onBlur, onTouched , all
+- [주의] mode : onChange 다수의 리렌더링 발생
+- onBlur 사용자가 submit 버튼을 누르기 전 입력 값이 유효한지 미리 표시 
+- onBlur 이벤트가 발생할때마다 validation이 실행
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. defaultValues
+- form 에 기본 값 제공
+- 기본값을 미제공시 input의 초기값은 undefined
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. register
+- 컨트롤 할 폼객체를 리턴받음
+- register 를 통해 input태그 핸들링
+- required, min, max, minLength, maxLength, pattern, validate, disabled, onChange, value ...
+- value 초기 입력값
 
-### `npm test`
+4. formState
+[errors]
+- 에러에 대한 정보는 formState 객체의 errors 에 들어있다.
+- 에러 미존재시 해당 객체 빈 객체
+[submitCount]
+- submit한 횟수를 알수있음
+[isDirty]
+- 사용자가 defaultValues 를 수정한 경우 true
+[dirtyFields]
+- 기본 값에 수정된 필드값이 담긴 객체
+- dirtyFields 를 사용하기 위해선 defaultValues세팅 필수
+[touchedFields]
+- 사용자에 의해 수정된 필드가 담긴 객체
+[isValid]
+- 에러 확인
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+5. watch
+- 값을 추적 1 method
+- 입력값 추적 -> 반환 -> 해당 값에 따라서 리렌더링
+- 폼에 입력된 값을 구독하여 실시간으로 체크
 
-### `npm run build`
+6. getValues
+- 값을 추적 2 method
+- 반환 -> No 추적 -> No 리랜더링
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+7. Reset
+- 해당 폼으로 create 기능 뿐만 아니라 edit 기능까지 커버
+- 수정 페이지
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+서버 데이터를 위해 react-query 라는 라이브러리를 사용 가능
+ react-query 에 비동기 플로우를 맡기고 있기 때문에, reset 에 관한 로직을 useQuery 의 onSuccess 에 넣음
+이렇게 코드를 작성한 경우에 useEffect 를 줄일수 있고, 보다 확실한 타이밍에 reset 을 해줌으로써 안정적인 플로우를 구현할 수 있음.
